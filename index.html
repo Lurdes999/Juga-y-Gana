@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juga con Ganemos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: #fff;
+            text-align: center;
+        }
+
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('casino_1.jpg') no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 2px 2px 10px rgba(255, 215, 0, 0.8);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            margin: 15px 0;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .cta-button {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #ff2200, #ffdf38);
+            color: #fff;
+            padding: 20px 40px;
+            border-radius: 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 0 15px rgba(255, 220, 0, 0.8);
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeIn 2.5s ease-in-out;
+        }
+
+        .cta-button i {
+            margin-right: 15px;
+            font-size: 1.8em;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 220, 0, 1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .info {
+            background: #1a1a1a;
+            padding: 50px 20px;
+        }
+
+        .info h2 {
+            font-size: 2em;
+            color: #FFD700;
+        }
+
+        .info p {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('casino_mobile1.jpg') no-repeat center center/cover;
+            }
+        }
+    </style>
+
+
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1898533570956225');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1898533570956225&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+    <noscript>
+        <img height="1" width="1" src="https://www.facebook.com/tr?id=1898533570956225&ev=PageView&noscript=1"/> //remplazar por pixel id
+    </noscript>
+
+<script>
+    // Variables de configuración
+    const accessToken = "EAAI7i9onX90BO49yZCVPGZBh81AZC5L4R3HXg8iebOlgcH62zjK2XaYU7bNfefLUnQJHzfvAoewpSmCsfIhvpLvCgkSXl4hlDSzIAEWdro1xAt08EIZBZBqZAGg3s7lIPnUzu137O2BrG6ESdurisRZCRWsSrSMyQEsXjLs7z5DZCOq4bZCtWhTQAX304qTROKXCb5wZDZD"; // Reemplázalo con tu token de acceso de la API de conversiones
+    const pixelId = "1898533570956225"; // Reemplázalo con tu Pixel ID de Meta
+    const conversionValue = 5;  // Ajusta el valor de la conversión
+    const currency = "ARS";  // Ajusta la moneda
+
+document.addEventListener("DOMContentLoaded", function () {
+    const whatsappButton = document.querySelector('.whatsapp-button');
+
+    if (whatsappButton) {
+        whatsappButton.addEventListener('click', function () {
+            // Definir el evento dinámicamente
+            const eventos = ["Comprar", "Cliente Potencial"];
+            const eventoSeleccionado = eventos[Math.floor(Math.random() * eventos.length)]; // Alterna entre los dos eventos
+
+            console.log(`Evento seleccionado: ${eventoSeleccionado}`);
+
+            // Enviar evento a Facebook Pixel
+            fbq('track', eventoSeleccionado, { 
+                content_name: 'Clic en botón WhatsApp',
+                content_category: 'Interacción de usuario'
+            });
+
+            // Enviar evento a la API de Conversiones de Facebook
+            fetch(`https://graph.facebook.com/v18.0/${pixelId}/events`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    data: [{
+                        event_name: eventoSeleccionado, // Aquí cambia entre "Comprar" y "Cliente Potencial"
+                        event_time: Math.floor(Date.now() / 1000),
+                        action_source: "website",
+                        event_source_url: window.location.href,
+                        event_id: Math.random().toString(36).substring(2, 15),
+                        user_data: {
+                            client_user_agent: navigator.userAgent
+                        },
+                        custom_data: {
+                            value: conversionValue,
+                            currency: currency
+                        }
+                    }],
+                    access_token: accessToken
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log("Respuesta API Conversiones:", data))
+            .catch(error => console.error("Error en API Conversiones:", error));
+        });
+    } else {
+        console.warn("No se encontró el botón de WhatsApp.");
+    }
+});
+
+</script>
+
+</head>
+<body>
+    <section class="hero">
+        <h1>Juga con Ganemos</h1>
+        <p>Para crear tu cuenta, envíanos un WhatsApp haciendo click en el botón de abajo</p>
+        <a href="https://api.whatsapp.com/send?phone=5491168756781&text=¡Buenas!%20Me%20gustaría%20crear%20un%20usuario.%20Mi%20nombre%20es:" 
+           class="cta-button" target="_blank">
+            <i class='fab fa-whatsapp'></i> ¡Crea tu usuario!
+        </a>
+    </section>
+    <section class="info">
+        <h2>Beneficios Exclusivos</h2>
+        <p>Recibe bonos de bienvenida y promociones especiales.</p>
+        <p>Mínimo de carga: $2000</p>
+    </section>
+</body>
+</html>
