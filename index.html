@@ -96,7 +96,6 @@
         }
     </style>
 
-
     <!-- Meta Pixel Code -->
     <script>
     !function(f,b,e,v,n,t,s)
@@ -107,40 +106,33 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '626681187011030');
+    fbq('init', '525099690224182');
     fbq('track', 'PageView');
     </script>
     <noscript>
-        <img height="1" width="1" src="https://www.facebook.com/tr?id=626681187011030&ev=PageView&noscript=1"/> //remplazar por pixel id
+        <img height="1" width="1" src="https://www.facebook.com/tr?id=525099690224182&ev=PageView&noscript=1"/>
     </noscript>
-
 
 <script>
     // Variables de configuración
-    const accessToken = "EAAJWRczfqPIBOxnTHmnTXTIHqZCQbgqYF2MkVZBmJpm2guNn9NZBahaDyAlRf2sanlQB60cPL8w1opwzvAoBvSJTcwZCmjQOncdt1zODX3NGOkp72LhqQYa1xZAy7M3HWBefaAZBsBXybhKZBRWWZBBe40qN9pmT571rRIvuXBpahM0xXKZBUOXjRuZAAyqoYj0CtZBfwZDZD"; // Reemplázalo con tu token de acceso de la API de conversiones
-    const pixelId = "626681187011030"; // Reemplázalo con tu Pixel ID de Meta
-    const conversionValue = 5;  // Ajusta el valor de la conversión
-    const currency = "ARS";  // Ajusta la moneda
+    const accessToken = "EAAQfoF750PwBOZB44nVOToal0YOhC5b9BzGceX0UDC6GQ3EZAOEGW3dnAcnQyZAVZC2hdhXmbkj8tZCuqqZCjmHZAD6bo0q9Gz91gW1PJ9JBw2KJugZB0VrZAZBayCteIZC9fXxqV7HcAAdBW58DZB2jhV11IJyeBRhivs6HgInQC1dsuKcuZBd7UnN1rGEXx32s6MxZBraQZDZD";
+    const pixelId = "525099690224182"; 
+    const conversionValue = 5.00;  
+    const currency = "ARS";  
 
 document.addEventListener("DOMContentLoaded", function () {
-   const whatsappButton = document.querySelector('.cta-button');
-
+    const whatsappButton = document.querySelector('.cta-button');
 
     if (whatsappButton) {
         whatsappButton.addEventListener('click', function () {
-            // Definir el evento dinámicamente
-            const eventos = ["Comprar", "Cliente Potencial"];
-            const eventoSeleccionado = eventos[Math.floor(Math.random() * eventos.length)]; // Alterna entre los dos eventos
+            console.log("Evento enviado: Purchase");
 
-            console.log(`Evento seleccionado: ${eventoSeleccionado}`);
-
-            // Enviar evento a Facebook Pixel
-            fbq('track', eventoSeleccionado, { 
-                content_name: 'Clic en botón WhatsApp',
-                content_category: 'Interacción de usuario'
+            fbq('track', 'Purchase', { 
+                content_name: 'Compra en WhatsApp',
+                value: conversionValue,
+                currency: currency
             });
 
-            // Enviar evento a la API de Conversiones de Facebook
             fetch(`https://graph.facebook.com/v18.0/${pixelId}/events`, {
                 method: "POST",
                 headers: {
@@ -148,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: JSON.stringify({
                     data: [{
-                        event_name: eventoSeleccionado, // Aquí cambia entre "Comprar" y "Cliente Potencial"
+                        event_name: "Purchase",
                         event_time: Math.floor(Date.now() / 1000),
                         action_source: "website",
                         event_source_url: window.location.href,
@@ -172,17 +164,16 @@ document.addEventListener("DOMContentLoaded", function () {
         console.warn("No se encontró el botón de WhatsApp.");
     }
 });
-
 </script>
 
 </head>
 <body>
     <section class="hero">
         <h1>Juga y Gana</h1>
-        <p>Para crear tu cuenta, envíanos un WhatsApp haciendo click en el botón de abajo</p>
-        <a href="https://api.whatsapp.com/send?phone=5491165517850&text=¡Buenas!%20Me%20gustaría%20crear%20un%20usuario.%20Mi%20nombre%20es:"  
+        <p>Para realizar una compra, envíanos un WhatsApp haciendo click en el botón de abajo</p>
+        <a href="https://api.whatsapp.com/send?phone=5491165517850&text=¡Buenas!%20Me%20gustaría%20realizar%20una%20compra.%20Mi%20nombre%20es:"  
            class="cta-button" target="_blank">
-            <i class='fab fa-whatsapp'></i> ¡Crea tu usuario!
+            <i class='fab fa-whatsapp'></i> Comprar Ahora
         </a>
     </section>
     <section class="info">
