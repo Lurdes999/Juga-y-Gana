@@ -111,75 +111,65 @@
         fbq('track', 'PageView');
     </script>
     <noscript>
-        <img height="1" width="1" src="https://www.facebook.com/tr?id=1364753024978609&ev=PageView&noscript=1"/>
+        <img height="1" width="1" src="https://www.facebook.com/tr?id=1364753024978609&ev=PageView&noscript=1"/> //remplazar por pixel id
     </noscript>
 
 <script>
     // Variables de configuración
-    const accessToken = "EAAIBrjFE0hgBO6AOSEeobnAZAUbEgdfXokWbK1pQygBpdZCpKbtU0cZB67evZBrP9FEwqsj45gYh9sBdRm1SCGoLlPAkh5eQxQwsBJVsiElyZChhbyxs5evX0g2pVaVeCHWdmqpOcYyaRTGYI7R4TKIUMmiV8gH4esBdSKAlCS8dzAHH1d3MCm1k2NS2BGzq9GQZDZD";
-    const pixelId = "1364753024978609"; 
-    const conversionValue = 5.00;  
-    const currency = "ARS";  
+    const accessToken = "EAAIBrjFE0hgBO8qJmVqdrim2NZB0BuiCxLDsmkGGNjer5U4HQfSmug37XCEwp1ZAyCZCpQ79ZCaZCSqya6Mj2hxH8qDLVGRqEqN9mZAZCvV7coTamZA6PSJK8S5ZCvlyJNdPxzC7FVf5x61xCEcc2BQRIz889nHEQShvM6BnvS5KdFPtIuZCzbb4cXVlBU9CG5U9Qj3AZDZD"; // Reemplázalo con tu token de acceso de la API de conversiones
+    const pixelId = "1364753024978609"; // Reemplázalo con tu Pixel ID de Meta
+    const conversionValue = 5;  // Ajusta el valor de la conversión
+    const currency = "ARS";  // Ajusta la moneda
 
-    document.addEventListener("DOMContentLoaded", function () {
-        const whatsappButton = document.querySelector('.cta-button');
+document.addEventListener("DOMContentLoaded", function () {
+    const whatsappButton = document.querySelector('.cta-button');
 
-        if (whatsappButton) {
-            whatsappButton.addEventListener('click', function (event) {
-                event.preventDefault(); // Evita el comportamiento predeterminado
-                whatsappButton.disabled = true; // Evita múltiples clics
+    if (whatsappButton) {
+        whatsappButton.addEventListener('click', function () {
+            // Definir el evento dinámicamente
+            const eventos = ["Comprar", "Cliente potencial"];
+            const eventoSeleccionado = eventos[Math.floor(Math.random() * eventos.length)]; // Alterna entre los dos eventos
 
-                // Generar un ID único para evitar duplicaciones
-                const eventId = `event_${Date.now()}_${Math.random().toString(36).substring(2, 10)}`;
+            console.log(`Evento seleccionado: ${eventoSeleccionado}`);
 
-                console.log(`Evento generado: ${eventId}`);
-
-                // Enviar evento a Facebook Pixel
-                fbq('track', 'Lead', { 
-                    content_name: 'Clic en botón WhatsApp',
-                    content_category: 'Interacción de usuario',
-                    event_id: eventId // Asegura que el evento sea único
-                });
-
-                // Enviar evento a la API de Conversiones de Facebook
-                fetch(`https://graph.facebook.com/v18.0/${pixelId}/events`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        data: [{
-                            event_name: "Lead", 
-                            event_time: Math.floor(Date.now() / 1000),
-                            action_source: "website",
-                            event_source_url: window.location.href,
-                            event_id: eventId, // Mismo ID que en Pixel para evitar duplicaciones
-                            user_data: {
-                                client_user_agent: navigator.userAgent
-                            },
-                            custom_data: {
-                                value: conversionValue,
-                                currency: currency
-                            }
-                        }],
-                        access_token: accessToken
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log("Respuesta API Conversiones:", data);
-                    whatsappButton.disabled = false; // Habilitar de nuevo el botón después de la respuesta
-                    window.location.href = whatsappButton.href; // Redirigir a WhatsApp
-                })
-                .catch(error => {
-                    console.error("Error en API Conversiones:", error);
-                    whatsappButton.disabled = false;
-                });
+            // Enviar evento a Facebook Pixel
+            fbq('track', eventoSeleccionado, { 
+                content_name: 'Clic en botón WhatsApp',
+                content_category: 'Interacción de usuario'
             });
-        } else {
-            console.warn("No se encontró el botón de WhatsApp.");
-        }
-    });
+
+            // Enviar evento a la API de Conversiones de Facebook
+            fetch(`https://graph.facebook.com/v18.0/${pixelId}/events`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    data: [{
+                        event_name: eventoSeleccionado, // Aquí cambia entre "Comprar" y "Cliente Potencial"
+                        event_time: Math.floor(Date.now() / 1000),
+                        action_source: "website",
+                        event_source_url: window.location.href,
+                        event_id: Math.random().toString(36).substring(2, 15),
+                        user_data: {
+                            client_user_agent: navigator.userAgent
+                        },
+                        custom_data: {
+                            value: conversionValue,
+                            currency: currency
+                        }
+                    }],
+                    access_token: accessToken
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log("Respuesta API Conversiones:", data))
+            .catch(error => console.error("Error en API Conversiones:", error));
+        });
+    } else {
+        console.warn("No se encontró el botón de WhatsApp.");
+    }
+});
 
 </script>
 
