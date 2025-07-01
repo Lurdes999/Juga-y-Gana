@@ -97,82 +97,69 @@
     </style>
 
 
-    <!-- Meta Pixel Code -->
-    <script>
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '1364753024978609'); // Remplazar por pixel
-        fbq('track', 'PageView');
-    </script>
-    <noscript>
-        <img height="1" width="1" src="https://www.facebook.com/tr?id=1911509753006211&ev=PageView&noscript=1"/> //remplazar por pixel id
-    </noscript>
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f, b, e, v, n, t, s) {
+      if (f.fbq) return;
+      n = f.fbq = function() {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n;
+      n.push = n;
+      n.loaded = !0;
+      n.version = '2.0';
+      n.queue = [];
+      t = b.createElement(e);
+      t.async = !0;
+      t.src = v;
+      s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '618119577985096');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1"
+      src="https://www.facebook.com/tr?id=618119577985096&ev=PageView&noscript=1" />
+  </noscript>
 
-<script>
-    // Variables de configuración
-    const accessToken = "EAAIBrjFE0hgBOxOIpk62r2OH074uSM8pbxkAQvBekx4QeGUEE3xR41u7qBUScpBPKXu6aGlSnZCZBOaYqSoS9jYLU3Nat6yEGHPt6ZCdhhlAiGnabiJWdAxZAKh586XFviHWa2DZAEoVVB3UPcYrCCCUjRDMBsscxa90ZBbfo9nglDvDlEZAoDqaXvVwCqdxQZDZD"; // Reemplázalo con tu token de acceso de la API de conversiones
-    const pixelId = "1364753024978609"; // Reemplázalo con tu Pixel ID de Meta
-    const conversionValue = 5;  // Ajusta el valor de la conversión
-    const currency = "ARS";  // Ajusta la moneda
+  <!-- Evento personalizado y CAPI -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const whatsappButton = document.querySelector('.cta-button');
 
-document.addEventListener("DOMContentLoaded", function () {
-    const whatsappButton = document.querySelector('.cta-button');
-
-    if (whatsappButton) {
+      if (whatsappButton) {
         whatsappButton.addEventListener('click', function () {
-            // Definir el evento dinámicamente
-            const eventos = ["Comprar", "Cliente potencial"];
-            const eventoSeleccionado = eventos[Math.floor(Math.random() * eventos.length)]; // Alterna entre los dos eventos
+          const evento = "Lead";
 
-            console.log(`Evento seleccionado: ${eventoSeleccionado}`);
+          // Meta Pixel (frontend)
+          fbq('track', evento, {
+            content_name: 'Clic en botón WhatsApp',
+            content_category: 'Interacción'
+          });
 
-            // Enviar evento a Facebook Pixel
-            fbq('track', eventoSeleccionado, { 
-                content_name: 'Clic en botón WhatsApp',
-                content_category: 'Interacción de usuario'
-            });
-
-            // Enviar evento a la API de Conversiones de Facebook
-            fetch(`https://graph.facebook.com/v18.0/${pixelId}/events`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    data: [{
-                        event_name: eventoSeleccionado, // Aquí cambia entre "Comprar" y "Cliente Potencial"
-                        event_time: Math.floor(Date.now() / 1000),
-                        action_source: "website",
-                        event_source_url: window.location.href,
-                        event_id: Math.random().toString(36).substring(2, 15),
-                        user_data: {
-                            client_user_agent: navigator.userAgent
-                        },
-                        custom_data: {
-                            value: conversionValue,
-                            currency: currency
-                        }
-                    }],
-                    access_token: accessToken
-                })
+          // Conversion API (backend)
+          fetch("enviar_evento.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              event_name: evento,
+              event_source_url: window.location.href,
+              value: 5.00,
+              currency: "ARS"
             })
-            .then(response => response.json())
-            .then(data => console.log("Respuesta API Conversiones:", data))
-            .catch(error => console.error("Error en API Conversiones:", error));
+          })
+          .then(res => res.json())
+          .then(data => console.log("CAPI response:", data))
+          .catch(err => console.error("Error al enviar CAPI:", err));
         });
-    } else {
-        console.warn("No se encontró el botón de WhatsApp.");
-    }
-});
-
-</script>
-
+      }
+    });
+  </script>
 </head>
 <body>
     <section class="hero">
