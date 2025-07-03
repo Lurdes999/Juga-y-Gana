@@ -126,40 +126,47 @@
   </noscript>
 
   <!-- Evento personalizado y CAPI -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const whatsappButton = document.querySelector('.cta-button');
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const whatsappButton = document.querySelector('.cta-button');
 
-      if (whatsappButton) {
-        whatsappButton.addEventListener('click', function () {
-          const evento = "Lead";
+    if (whatsappButton) {
+      whatsappButton.addEventListener('click', function () {
+        const eventName = "Purchase";
+        const eventId = eventName + '-' + Date.now();
 
-          // Meta Pixel (frontend)
-          fbq('track', evento, {
-            content_name: 'Clic en botón WhatsApp',
-            content_category: 'Interacción'
-          });
-
-          // Conversion API (backend)
-          fetch("enviar_evento.php", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              event_name: evento,
-              event_source_url: window.location.href,
-              value: 5.00,
-              currency: "ARS"
-            })
-          })
-          .then(res => res.json())
-          .then(data => console.log("CAPI response:", data))
-          .catch(err => console.error("Error al enviar CAPI:", err));
+        // Evento con Meta Pixel (cliente)
+        fbq('track', eventName, {
+          content_name: 'Clic en botón WhatsApp',
+          content_category: 'Conversión de usuario',
+          value: 5.00,
+          currency: 'ARS'
+        }, {
+          eventID: eventId
         });
-      }
-    });
-  </script>
+
+        // Evento con Conversion API (servidor)
+        fetch("enviar_evento.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            event_name: eventName,
+            event_id: eventId,
+            event_time: Math.floor(Date.now() / 1000),
+            event_source_url: window.location.href
+          })
+        })
+        .then(res => res.json())
+        .then(data => console.log("CAPI response:", data))
+        .catch(err => console.error("Error al enviar CAPI:", err));
+      });
+    }
+  });
+</script>
+
+
 </head>
 <body>
     <section class="hero">
