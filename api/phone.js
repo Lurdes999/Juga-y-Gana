@@ -24,6 +24,17 @@ try {
   redis = null;
 }
 
+function getRedisNamespace(req) {
+  // Recomendado: definir REDIS_NAMESPACE distinto por proyecto en Vercel
+  const ns = (process.env.REDIS_NAMESPACE || '').trim();
+  if (ns) return ns;
+
+  // Fallback (no recomendado para multi-entorno): usar host si no hay namespace explícito.
+  // Esto puede variar entre preview/prod o entre dominios, por eso es mejor setear REDIS_NAMESPACE.
+  const host = (req?.headers?.host || '').trim();
+  return host ? `host:${host}` : 'default';
+}
+
 export default async function handler(req, res) {
   // Permitir CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -41,13 +52,13 @@ export default async function handler(req, res) {
       // Intentar obtener desde Redis (solo el número, el mensaje siempre viene de la variable de entorno)
       if (redis) {
         try {
-          phoneNumber = await redis.get('phone_number');
+          const ns = getRedisNamespace(req);
+          phoneNumber = await redis.get(`${ns}:phone_number`);
         } catch (redisError) {
           // Si Redis falla, usar variables de entorno
           console.log('Error al obtener de Redis, usando variables de entorno:', redisError);
         }
       }
-
       // Fallback a variables de entorno o valores por defecto
       // El mensaje SIEMPRE viene de la variable de entorno, nunca de Redis
       phoneNumber = phoneNumber || process.env.PHONE_NUMBER || '5491157552283';
@@ -65,7 +76,7 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     try {
-      const { phone, message, password } = req.body;
+      const { phone, password } = req.body;
 
       // Verificar contraseña
       const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
@@ -87,7 +98,8 @@ export default async function handler(req, res) {
       if (redis) {
         try {
           // Solo guardar el número de teléfono, el mensaje no se modifica
-          await redis.set('phone_number', phone);
+          const ns = getRedisNamespace(req);
+          await redis.set(`${ns}:phone_number`, phone);
           
           return res.status(200).json({
             success: true,
