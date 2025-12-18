@@ -1,9 +1,10 @@
-v<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juga y Gana</title>
+    <title>Juga y Gana con Joker</title>
+    <link rel="icon" href="jokers-jewels-logo.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
@@ -22,7 +23,7 @@ v<!DOCTYPE html>
 
         .hero {
             height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('volcano_3.jpg') no-repeat center center/cover;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('JokerCrazy.jpg') no-repeat center center/cover;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -31,9 +32,9 @@ v<!DOCTYPE html>
         }
 
         .hero h1 {
-            font-size: 3em;
+            font-size: 4em;
             font-weight: bold;
-            color: #FFD700;
+            color: #38ff00;
             text-shadow: 2px 2px 10px rgba(255, 215, 0, 0.8);
             animation: fadeIn 1.5s ease-in-out;
         }
@@ -47,14 +48,14 @@ v<!DOCTYPE html>
         .cta-button {
             display: flex;
             align-items: center;
-            background: linear-gradient(135deg, #ff2200, #ffdf38);
+            background: linear-gradient(135deg, #38ff00, #c6ff00, #38ff00);
             color: #fff;
             padding: 20px 40px;
             border-radius: 10px;
             font-size: 1.5em;
             font-weight: bold;
             text-decoration: none;
-            box-shadow: 0 0 15px rgba(255, 220, 0, 0.8);
+            box-shadow: 0 0 18px #38ff00;
             transition: transform 0.3s, box-shadow 0.3s;
             animation: fadeIn 2.5s ease-in-out;
         }
@@ -66,7 +67,7 @@ v<!DOCTYPE html>
 
         .cta-button:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(255, 220, 0, 1);
+            box-shadow: 0 0 30px rgb(56 255 0);
         }
 
         @keyframes fadeIn {
@@ -81,7 +82,7 @@ v<!DOCTYPE html>
 
         .info h2 {
             font-size: 2em;
-            color: #FFD700;
+            color: #38ff00;
         }
 
         .info p {
@@ -91,93 +92,50 @@ v<!DOCTYPE html>
 
         @media (max-width: 900px) {
             .hero {
-                background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('volcano_M1.jpg') no-repeat center center/cover;
+                background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('JokerCrazy_mobile.jpg') no-repeat center center/cover;
+            }
+            .cta-button {
+                font-size: 1.5em;
+                padding: 20px 24px;
+            }
+        
+            .cta-button i {
+                font-size: 1.5em; /* Reduce el tamaño del icono de WhatsApp */
+                margin-right: 10px;
+            }
+            .hero h1 {
+                font-size: 2em; /* Reduce el tamaño del título */
+            }
+        
+            .hero p {
+                font-size: 1em; /* Reduce el tamaño del párrafo */
             }
         }
+
     </style>
 
-
-    <!-- Meta Pixel Code -->
-    <script>
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '777381808071875'); // Remplazar por pixel
-        fbq('track', 'PageView');
-    </script>
-    <noscript>
-        <img height="1" width="1" src="https://www.facebook.com/tr?id=777381808071875&ev=PageView&noscript=1"/> //remplazar por pixel id
-    </noscript>
-
+<!-- Meta Pixel Code -->
 <script>
-    // Variables de configuración
-    const accessToken = "EAAIBrjFE0hgBPDDlZBeUYuMYT7DITRa9ntw1c7V2DLVSwp13ZB54giy8aDJ0YARp15Ce1x2vvi85Au8NqSCfawE7mz0f6PDfmzoH0Nju3udDK9ZCRqYwq2qZBaUs5Bf1t0JMqr968AnqLXjw3vboonLZAVsCo3rTqfZA34utWD2bMRAEBMVjWOGHtxIKNPR8lqyAZDZD"; // Reemplázalo con tu token de acceso de la API de conversiones
-    const pixelId = "777381808071875"; // Reemplázalo con tu Pixel ID de Meta
-    const conversionValue = 5.00;  // Ajusta el valor de la conversión
-    const currency = "ARS";  // Ajusta la moneda
-
-document.addEventListener("DOMContentLoaded", function () {
-    const whatsappButton = document.querySelector('.cta-button');
-
-    if (whatsappButton) {
-        whatsappButton.addEventListener('click', function () {
-            // Definir el evento dinámicamente
-            const eventos = ["Comprar", "Cliente Potencial"];
-            const eventoSeleccionado = eventos[Math.floor(Math.random() * eventos.length)]; // Alterna entre los dos eventos
-
-            console.log(`Evento seleccionado: ${eventoSeleccionado}`);
-
-            // Enviar evento a Facebook Pixel
-            fbq('track', eventoSeleccionado, { 
-                content_name: 'Clic en botón WhatsApp',
-                content_category: 'Interacción de usuario'
-            });
-
-            // Enviar evento a la API de Conversiones de Facebook
-            fetch(`https://graph.facebook.com/v18.0/${pixelId}/events`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    data: [{
-                        event_name: eventoSeleccionado, // Aquí cambia entre "Comprar" y "Cliente Potencial"
-                        event_time: Math.floor(Date.now() / 1000),
-                        action_source: "website",
-                        event_source_url: window.location.href,
-                        event_id: Math.random().toString(36).substring(2, 15),
-                        user_data: {
-                            client_user_agent: navigator.userAgent
-                        },
-                        custom_data: {
-                            value: conversionValue,
-                            currency: currency
-                        }
-                    }],
-                    access_token: accessToken
-                })
-            })
-            .then(response => response.json())
-            .then(data => console.log("Respuesta API Conversiones:", data))
-            .catch(error => console.error("Error en API Conversiones:", error));
-        });
-    } else {
-        console.warn("No se encontró el botón de WhatsApp.");
-    }
-});
-
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', 'xxxxxxxxxxxxxx'); 
+  fbq('track', 'PageView');
 </script>
-
-
+<noscript>
+  <img height="1" width="1" style="display:none"
+       src="https://www.facebook.com/tr?id=xxxxxxxxxxx&ev=PageView&noscript=1"/>
+</noscript>
+<!-- End Meta Pixel Code -->
 </head>
 <body>
     <section class="hero">
-        <h1>Juga y Gana</h1>
+        <h1>¡Jugá y Ganá con nosotros, estamos las 24h del día junto a vos!</h1>
         <p>Para crear tu cuenta, envíanos un WhatsApp haciendo click en el botón de abajo</p>
         <a href="#" 
            id="whatsapp-button"
@@ -192,6 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <p>Recibe bonos de bienvenida y promociones especiales.</p>
         <p>Mínimo de carga: $2000</p>
     </section>
+
     <script>
         // Cargar número de teléfono dinámicamente desde la API
         async function loadPhoneNumber() {
