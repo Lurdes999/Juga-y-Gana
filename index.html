@@ -97,24 +97,37 @@
     </style>
 
 
-<!-- Meta Pixel Code -->
 <script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '903475878874156'); 
-  fbq('track', 'PageView');
-</script>
-<noscript>
-  <img height="1" width="1" style="display:none"
-       src="https://www.facebook.com/tr?id=903475878874156&ev=PageView&noscript=1"/>
-</noscript>
-<!-- End Meta Pixel Code -->
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1614854536422874'); 
+    fbq('track', 'PageView');
+  
+    // Deduplicación: un solo evento WhatsAppClick por intención (evita doble clic / doble envío)
+    // value/currency: en el clic no hay venta real; usar 0 evita inflar ROAS. Para ROAS correcto,
+    // enviar el valor real con el evento Purchase vía Conversions API cuando haya conversión (ej. depósito).
+    window.trackWhatsAppClick = function() {
+      var now = Date.now();
+      if (window._lastWhatsAppClick && (now - window._lastWhatsAppClick) < 2500) return;
+      window._lastWhatsAppClick = now;
+      var eventId = 'wa_' + now + '_' + Math.random().toString(36).slice(2);
+      fbq('trackCustom', 'WhatsAppClick', {
+        value: 0,
+        currency: 'ARS'
+      }, { eventID: eventId });
+    };
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+         src="https://www.facebook.com/tr?id=1614854536422874&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Meta Pixel Code -->
 
 
 </head>
@@ -126,7 +139,7 @@
            id="whatsapp-button"
            class="cta-button" 
            target="_blank" 
-           onclick="fbq('trackCustom', 'WhatsAppClick')">
+           onclick="trackWhatsAppClick()">
             <i class='fab fa-whatsapp'></i> ¡Crea tu usuario!
         </a>
     </section>
